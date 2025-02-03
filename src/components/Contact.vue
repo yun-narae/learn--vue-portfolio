@@ -14,30 +14,67 @@ import { contactText } from "../constants";
                             </div>
                         </div>
                     </div>
-                    <form id="contact__form" class="contact__form" action="#">
-                        <fieldset>
-                            <div class="form__group name">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name" placeholder="Your name" required />
-                            </div>
-                    
-                            <div class="form__group email">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" placeholder="Your email" required />
-                            </div>
-                    
-                            <div class="form__group message">
-                                <label for="message">Message</label>
-                                <textarea id="message" name="message" placeholder="Your message" required></textarea>
-                            </div>
-                        </fieldset>
-                    
-                        <button type="submit">Submit</button>
-                    </form>
+                    <form @submit.prevent="sendEmail" id="contact__form" class="contact__form">
+                        <div class="form__group name">
+                            <label for="name">Name:</label>
+                            <input v-model="formData.name" type="text" id="name" name="name" required />
+                        </div>
+                        <div class="form__group email">
+                            <label for="email">Email:</label>
+                            <input v-model="formData.email" type="email" id="email" name="email" required />
+                        </div>
+                        <div class="form__group message">
+                            <label for="message">Message:</label>
+                            <textarea v-model="formData.message" id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit">Send Message</button>
+                        </form>
                 </div>
             </div>            
         </section>
 </template>
+
+<script>
+import emailjs from '@emailjs/browser';
+
+export default {
+  data() {
+    return {
+      formData: {
+        name: '',
+        email: '',
+        message: '',
+      },
+    };
+  },
+  methods: {
+    async sendEmail() {
+      try {
+        console.log("폼 제출 이벤트가 발생했습니다!");  // 이벤트 확인을 위한 로그
+
+        // emailjs 초기화 (필요한 경우, 공개 키 설정)
+        emailjs.init('uZwXD-cSyW-6lPXgf');  // 공개 키를 통해 초기화
+
+        // 폼 요소를 가져옵니다.
+        const form = document.getElementById('contact__form');
+        // emailjs의 sendForm 메서드를 사용하여 이메일 전송
+        const result = await emailjs.sendForm(
+          'service_dvexwxl',  // 서비스 ID
+          'template_hz7cr4x',  // 템플릿 ID
+          form,    // 폼 ID
+          'uZwXD-cSyW-6lPXgf'  // 공개 키
+        );
+
+        console.log('이메일 전송 성공:', result.text);
+        alert('이메일이 성공적으로 전송되었습니다!');
+      } catch (error) {
+        console.log('이메일 전송 실패:', error.text);
+        alert('이메일 전송에 실패했습니다.');
+      }
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
     .contact__inner {
