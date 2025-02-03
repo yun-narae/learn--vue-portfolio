@@ -5,10 +5,12 @@ import { introText } from "../constants";
 <template>
     <section id="intro">
             <div class="intro__inner">
-                <h1 class="intro__title">{{introText.title}}<br/><span>scroll down ⬇️</span></h1>
+                <h1 class="intro__title">{{ introText.title }}<br/><span>scroll down ⬇️</span></h1>
                 <div class="intro__text">
-                    <div class="text" v-for="(text, key) in introText.desc" :key="key">
-                        {{ text }}
+                    <div class="text">
+                        <div  v-for="(text, key) in introText.desc" :key="key">
+                            {{ text }}
+                        </div>
                     </div>
                     <div className="img">
                         <img src="@/assets/img/aboutme.jpg" alt="어바웃미" />
