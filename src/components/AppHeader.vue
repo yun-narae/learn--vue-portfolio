@@ -51,6 +51,16 @@ export default {
                 this.isNavVisible = false; // 801px 이상이면 메뉴 닫기
             }
         },
+        scrollLink(event) {
+            event.preventDefault();
+
+            const targetId = event.target.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: "smooth" });
+            }
+        }
     },
     mounted() {
         window.addEventListener("resize", this.handleResize);
