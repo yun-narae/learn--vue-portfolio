@@ -37,17 +37,28 @@ import { headerNav } from "../constants";
 
 <script>
 export default {
-    data(){
+    data() {
         return {
-            isNavVisible: false
-        }
+            isNavVisible: false,
+        };
     },
     methods: {
-        toggleMobileMenu(){
+        toggleMobileMenu() {
             this.isNavVisible = !this.isNavVisible;
-        }
-    }
-}
+        },
+        handleResize() {
+            if (window.innerWidth > 800) {
+                this.isNavVisible = false; // 801px 이상이면 메뉴 닫기
+            }
+        },
+    },
+    mounted() {
+        window.addEventListener("resize", this.handleResize);
+    },
+    beforeUnmount() {
+        window.removeEventListener("resize", this.handleResize);
+    },
+};
 </script>
 
 <style lang="scss" scoped>
